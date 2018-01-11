@@ -40,10 +40,12 @@ void loop() {
 		if (esp8266.find("+IPD,")) {
 			delay(600);
 			connectionId = esp8266.read() - 48;
-
-			if (esp8266.find("ON")) {
+			char url[36];
+			esp8266.readBytes(url, 30);
+			String mode(url);
+			if (mode.indexOf("ON") != -1) {
 				ledSwitch(true);
-			} else {
+			} else if (mode.indexOf("OFF") != -1) {
 				ledSwitch(false);
 			}
 
