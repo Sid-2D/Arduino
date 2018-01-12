@@ -2,6 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include "index.h"
 
 MDNSResponder mdns;
 
@@ -16,8 +17,7 @@ int gpio0 = 0;
 int gpio2 = 2;
 
 void setup() {
-	webPage += "<p><span style=\"font-size: 25px; text-decoration: bold;\">LED 1: <span><a href=\"socket1On\"><button>ON</button></a>&nbsp;<a href=\"socket1Off\"><button>OFF</button></a></p>";
-	webPage += "<p><span style=\"font-size: 25px; text-decoration: bold;\">LED 2: <span><a href=\"socket2On\"><button>ON</button></a>&nbsp;<a href=\"socket2Off\"><button>OFF</button></a></p>";
+	webPage = MAIN_page;
 
 	// GPIO
 	pinMode(gpio0, OUTPUT);
@@ -41,10 +41,6 @@ void setup() {
 	Serial.println(ssid);
 	Serial.print("IP Address: ");
 	Serial.println(WiFi.localIP());
-
-	if (mdns.begin("esp8266")) {
-		Serial.println("MDNS responder started");
-	}
 
 	server.on("/", [](){
 		server.send(200, "text/html", webPage);
